@@ -1,29 +1,48 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+// app/_layout.tsx
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import theme from '@/src/theme/theme';
+import { ThemeProvider } from '@shopify/restyle';
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    // Corrigir os caminhos - agora apontando para assets/images/fonts/
+    IcoMoon: require('../assets/icons/icomoon.ttf'),
+    PoppinsBlack: require('../assets/images/fonts/Poppins-Black.ttf'),
+    PoppinsBlackItalic: require('../assets/images/fonts/Poppins-BlackItalic.ttf'),
+    PoppinsBold: require('../assets/images/fonts/Poppins-Bold.ttf'),
+    PoppinsBoldItalic: require('../assets/images/fonts/Poppins-BoldItalic.ttf'),
+    PoppinsExtraBold: require('../assets/images/fonts/Poppins-ExtraBold.ttf'),
+    PoppinsExtraBoldItalic: require('../assets/images/fonts/Poppins-ExtraBoldItalic.ttf'),
+    PoppinsExtraLight: require('../assets/images/fonts/Poppins-ExtraLight.ttf'),
+    PoppinsExtraLightItalic: require('../assets/images/fonts/Poppins-ExtraLightItalic.ttf'),
+    PoppinsItalic: require('../assets/images/fonts/Poppins-Italic.ttf'),
+    PoppinsLight: require('../assets/images/fonts/Poppins-Light.ttf'),
+    PoppinsLightItalic: require('../assets/images/fonts/Poppins-LightItalic.ttf'),
+    PoppinsMedium: require('../assets/images/fonts/Poppins-Medium.ttf'),
+    PoppinsMediumItalic: require('../assets/images/fonts/Poppins-MediumItalic.ttf'),
+    PoppinsRegular: require('../assets/images/fonts/Poppins-Regular.ttf'),
+    PoppinsSemiBold: require('../assets/images/fonts/Poppins-SemiBold.ttf'),
+    PoppinsSemiBoldItalic: require('../assets/images/fonts/Poppins-SemiBoldItalic.ttf'),
+    PoppinsThin: require('../assets/images/fonts/Poppins-Thin.ttf'),
+    PoppinsThinItalic: require('../assets/images/fonts/Poppins-ThinItalic.ttf'),
   });
 
   if (!loaded) {
-    // Async font loading only occurs in development.
     return null;
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider theme={theme}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(protected)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
+        <Stack.Screen name="sign-in" />
       </Stack>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
     </ThemeProvider>
   );
 }
