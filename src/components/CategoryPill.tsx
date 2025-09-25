@@ -1,4 +1,3 @@
-
 import { Category, CategoryCode } from '../types';
 import { IconName } from './Icon';
 import { Pill, PillProps } from './Pill';
@@ -6,6 +5,9 @@ import { Pill, PillProps } from './Pill';
 type CategoryPillProps = {
   category: Category;
 } & Pick<PillProps, 'active' | 'onPress'>;
+
+
+
 export function CategoryPill({ category, ...pillProps }: CategoryPillProps) {
   return (
     <Pill

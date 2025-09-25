@@ -1,3 +1,4 @@
+// src/components/Screen.tsx
 import { PropsWithChildren } from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 import { Box, BoxProps } from "./Box";
@@ -20,7 +21,13 @@ export function Screen({
         paddingHorizontal="padding"
         {...boxProps}
       >
-        <Container showsVerticalScrollIndicator={false}>{children}</Container>
+        <Container 
+          style={{ flex: 1 }}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={scrollable ? { flexGrow: 1 } : undefined}
+        >
+          {children}
+        </Container>
       </Box>
     </KeyboardAvoidingView>
   );
