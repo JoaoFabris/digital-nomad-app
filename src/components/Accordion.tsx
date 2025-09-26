@@ -1,14 +1,16 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, {
-    SharedValue,
-    useAnimatedStyle,
-    useDerivedValue,
-    useSharedValue,
-    withTiming,
+  interpolate,
+  interpolateColor,
+  SharedValue,
+  useAnimatedStyle,
+  useDerivedValue,
+  useSharedValue,
+  withTiming,
 } from 'react-native-reanimated';
 import theme from '../theme/theme';
+import { useAppTheme } from '../theme/useAppTheme';
 import { Box } from './Box';
-import { Icon } from './Icon';
 import { Text } from './Text';
 
 type AccordionProps = {
@@ -18,39 +20,88 @@ type AccordionProps = {
 
 export function Accordion({ title, description }: AccordionProps) {
   const isOpen = useSharedValue(false);
+  const progress = useSharedValue(0);
 
   function handleOpenPress() {
     isOpen.value = !isOpen.value;
+    progress.value = withTiming(isOpen.value ? 0 : 1, { duration: 500 });
   }
   return (
     <Pressable onPress={handleOpenPress}>
       <View>
-        <AccordionHeader title={title} />
-        <AccordionBody description={description} isOpen={isOpen} />
+        <AccordionHeader title={title} progress={progress} />
+        <AccordionBody
+          description={description}
+          isOpen={isOpen}
+          progress={progress}
+        />
       </View>
     </Pressable>
   );
 }
 
-function AccordionHeader({ title }: { title: string }) {
+function AccordionHeader({
+  title,
+  progress,
+}: {
+  title: string;
+  progress: SharedValue<number>;
+}) {
+  const { colors, borderRadii } = useAppTheme();
+  const iconAnimatedStyle = useAnimatedStyle(() => ({
+    tintColor: interpolateColor(
+      progress.value,
+      [0, 1],
+      [colors.gray2, colors.primary]
+    ),
+    transform: [
+      {
+        rotate: interpolate(progress.value, [0, 1], [0, -180]) + 'deg',
+      },
+    ],
+  }));
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    backgroundColor: interpolateColor(
+      progress.value,
+      [0, 1],
+      [colors.transparent, colors.gray1]
+    ),
+    borderBottomLeftRadius: interpolate(
+      progress.value,
+      [0, 1],
+      [borderRadii.default, 0]
+    ),
+    borderBottomRightRadius: interpolate(
+      progress.value,
+      [0, 1],
+      [borderRadii.default, 0]
+    ),
+  }));
   return (
-    <View style={styles.header}>
+    <Animated.View style={[styles.header, animatedStyle]}>
       <Box flexShrink={1}>
         <Text variant="title16">{title}</Text>
       </Box>
-      <Icon name="Chevron-down" color="gray2" />
-    </View>
+      <Animated.Image
+        source={require('@/assets/images/chevron-down.png')}
+        style={[iconAnimatedStyle, { width: 24, height: 24 }]}
+      />
+    </Animated.View>
   );
 }
 
 function AccordionBody({
   description,
   isOpen,
+  progress,
 }: {
   description: string;
   isOpen: SharedValue<boolean>;
+  progress: SharedValue<number>;
 }) {
   const height = useSharedValue(0);
+  const { borderRadii } = useAppTheme();
 
   const derivedHeight = useDerivedValue(() =>
     withTiming(height.value * Number(isOpen.value), { duration: 500 })
@@ -58,16 +109,13 @@ function AccordionBody({
 
   const animetedStyle = useAnimatedStyle(() => {
     return {
-      // height: isOpen.value
-      // ? withTiming(height.value, { duration: 500 })
-      // : withTiming(0, { duration: 500 }),
-      height: withTiming(height.value * Number(isOpen.value), {
-        duration: 500,
-      }),
+      opacity: interpolate(progress.value, [0, 1], [0, 1]),
+      height: interpolate(progress.value, [0, 1], [0, height.value]),
+      borderTopLeftRadius: interpolate(progress.value, [0, 1], [borderRadii.default, 0]),
     };
   });
   return (
-    <Animated.View style={[{ overflow: 'hidden', height: derivedHeight }]}>
+    <Animated.View style={[animetedStyle, {overflow: "hidden"}]}>
       <View
         style={styles.body}
         onLayout={(e) => {
@@ -92,7 +140,7 @@ const styles = StyleSheet.create({
   },
   body: {
     position: 'absolute',
-    paddingVertical: 16,
+    paddingHorizontal: 16,
     paddingBottom: 16,
     backgroundColor: theme.colors.gray1,
     borderBottomLeftRadius: theme.borderRadii.default,

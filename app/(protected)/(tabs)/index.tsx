@@ -9,7 +9,8 @@ import { useAppTheme } from '@/src/theme/useAppTheme';
 import { CityPreview } from '@/src/types';
 import { useScrollToTop } from '@react-navigation/native';
 import { useRef, useState } from 'react';
-import { FlatList, ListRenderItemInfo } from 'react-native';
+import { ListRenderItemInfo } from 'react-native';
+import Animated, { FadingTransition } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
@@ -38,12 +39,13 @@ export default function HomeScreen() {
 
   return (
     <Screen style={{ paddingHorizontal: 0 }}>
-      <FlatList
+      <Animated.FlatList
         contentContainerStyle={{
           gap: spacing.padding,
           paddingTop: top,
           paddingBottom: spacing.padding,
         }}
+        itemLayoutAnimation={FadingTransition.duration(500)}
         data={cityPreviewList}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
