@@ -7,6 +7,10 @@ import 'react-native-reanimated';
 import theme from '@/src/theme/theme';
 import { ThemeProvider } from '@shopify/restyle';
 
+if (__DEV__) {
+  require("../ReactotronConfig");
+}
+
 export default function RootLayout() {
   const [loaded] = useFonts({
     // Corrigir os caminhos - agora apontando para assets/images/fonts/
