@@ -1,6 +1,6 @@
-import { cities } from "./cities";
+import { supabaseService } from "../supabase/supabaseService";
+import { useFetchData } from "./useFetchData";
 
 export function useCityDetails(id: string) {
-  const city = cities.find((city) => city.id === id);
-  return city;
+  return useFetchData(() => supabaseService.findById(id));
 }

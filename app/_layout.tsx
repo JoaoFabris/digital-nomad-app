@@ -1,4 +1,9 @@
 // app/_layout.tsx
+
+if (__DEV__) {
+  require('../ReactotronConfig');
+}
+
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -6,10 +11,6 @@ import 'react-native-reanimated';
 
 import theme from '@/src/theme/theme';
 import { ThemeProvider } from '@shopify/restyle';
-
-if (__DEV__) {
-  require("../ReactotronConfig");
-}
 
 export default function RootLayout() {
   const [loaded] = useFonts({

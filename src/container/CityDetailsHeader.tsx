@@ -1,16 +1,15 @@
-import { router } from 'expo-router';
-import React from 'react';
-import { ImageBackground, ScrollView } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BlackOpacity } from '../components/BlackOpacity';
-import { Box } from '../components/Box';
-import { CategoryPill } from '../components/CategoryPill';
-import { Icon } from '../components/Icon';
-import { IconButton } from '../components/IconButton';
-import { PILL_HEIGHT } from '../components/Pill';
-import { City } from '../types';
+import { router } from "expo-router";
+import { ImageBackground, ScrollView } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { BlackOpacity } from "../components/BlackOpacity";
+import { Box } from "../components/Box";
+import { CategoryPill } from "../components/CategoryPill";
+import { Icon } from "../components/Icon";
+import { IconButton } from "../components/IconButton";
+import { PILL_HEIGHT } from "../components/Pill";
+import { City } from "../types";
 
-type CityDetailsHeaderProps = Pick<City, 'id' | 'coverImage' | 'categories'>;
+type CityDetailsHeaderProps = Pick<City, "id" | "coverImage" | "categories">;
 
 export function CityDetailsHeader({
   coverImage,
@@ -20,8 +19,10 @@ export function CityDetailsHeader({
   return (
     <Box>
       <ImageBackground
-        source={coverImage}
-        style={{ width: '100%', height: 250 }}
+        source={
+          typeof coverImage === "number" ? coverImage : { uri: coverImage }
+        }
+        style={{ width: "100%", height: 250 }}
         imageStyle={{ borderBottomRightRadius: 40 }}
       >
         <BlackOpacity />
@@ -35,9 +36,15 @@ export function CityDetailsHeader({
           <IconButton iconName="Chevron-left" onPress={router.back} />
           <Icon name="Favorite-outline" size={30} color="pureWhite" />
         </Box>
-      </ImageBackground>r
-      <ScrollView showsHorizontalScrollIndicator={false} horizontal bounces={false} style={{ marginTop: -PILL_HEIGHT}}>
-        <Box mt="s16" flexDirection="row" gap="s8" paddingHorizontal="padding">
+      </ImageBackground>
+
+      <ScrollView
+        horizontal
+        bounces={false}
+        showsHorizontalScrollIndicator={false}
+        style={{ marginTop: -PILL_HEIGHT / 2 }}
+      >
+        <Box flexDirection="row" gap="s8" paddingHorizontal="padding">
           {categories.map((category) => (
             <CategoryPill active={true} key={category.id} category={category} />
           ))}
