@@ -1,16 +1,16 @@
-import { InMemoryCityRepo } from "@/app/infra/repositories/inMemory/InMemoryCityRepo";
 import { Box } from "@/src/components/Box";
 import { CityCard } from "@/src/components/CityCard";
 import { Screen } from "@/src/components/Screen";
 import { CityFilter } from "@/src/container/CityFilter";
 
 import { useCategories } from "@/src/data/useCategories";
+import { CityPreview } from "@/src/domain/city/City";
 import { useCityFindAll } from "@/src/domain/city/operation/useCityFindAll";
 import { useDebounce } from "@/src/hook/useDebounce";
 
 
 import { useAppTheme } from "@/src/theme/useAppTheme";
-import { CityPreview } from "@/src/types";
+
 import { useScrollToTop } from "@react-navigation/native";
 import { useRef, useState } from "react";
 import { ListRenderItemInfo } from "react-native";
@@ -27,13 +27,10 @@ export default function HomeScreen() {
     null
   );
 
-  const { data: cities } = useCityFindAll(
-    {
-      name: debouncedCityName,
-      categoryId: selectedCategoryId,
-    },
-    new InMemoryCityRepo()
-  );
+  const { data: cities } = useCityFindAll({
+    name: debouncedCityName,
+    categoryId: selectedCategoryId,
+  });
 
   const { data: categories } = useCategories();
 

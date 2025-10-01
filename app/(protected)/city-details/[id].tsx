@@ -7,21 +7,20 @@ import { CityDetailsInfo } from "@/src/container/CityDetailsInfo";
 import { CityDetailsMap } from "@/src/container/CityDetailsMap";
 import { CityDetailsRelatedCities } from "@/src/container/CityDetailsRelatedCities";
 import { CityDetailsTouristAttractions } from "@/src/container/CityDetailTouristAttractions";
+import { useCityFindById } from "@/src/domain/city/operation/useCityFindById";
 
-import { useCityDetails } from "@/src/data/useCityDetails";
 import { useLocalSearchParams } from "expo-router";
 import { Pressable } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 
 export default function CityDetails() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { data: city } = useCityDetails(id);
+  const { data: city } = useCityFindById(id);
 
   const bottomSheetIsOpen = useSharedValue(false);
   function toggleBottomSheet() {
     bottomSheetIsOpen.value = !bottomSheetIsOpen.value;
   }
-
   if (!city) {
     return (
       <Screen flex={1} justifyContent="center" alignItems="center">
@@ -29,7 +28,6 @@ export default function CityDetails() {
       </Screen>
     );
   }
-
   return (
     <>
       <Screen style={{ paddingHorizontal: 0 }} scrollable>
@@ -47,12 +45,10 @@ export default function CityDetails() {
         <CityDetailsTouristAttractions
           touristAttractions={city.touristAttractions}
         />
-
         <Divider paddingHorizontal="padding" />
         <Pressable onPress={toggleBottomSheet}>
           <CityDetailsMap location={city.location} />
         </Pressable>
-
         <Divider paddingHorizontal="padding" />
         <CityDetailsRelatedCities id={city.id} />
       </Screen>

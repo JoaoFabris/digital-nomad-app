@@ -1,57 +1,91 @@
-// app/_layout.tsx
+import { InMemoryRepository } from "@/src/infra/repositories/adapters/inMemory";
+import { RepositoryProvider } from "@/src/infra/repositories/RepositoryProvider";
+import theme from "@/src/theme/theme";
+import {
+  Poppins_100Thin,
+  Poppins_100Thin_Italic,
+  Poppins_200ExtraLight,
+  Poppins_200ExtraLight_Italic,
+  Poppins_300Light,
+  Poppins_300Light_Italic,
+  Poppins_400Regular,
+  Poppins_400Regular_Italic,
+  Poppins_500Medium,
+  Poppins_500Medium_Italic,
+  Poppins_600SemiBold,
+  Poppins_600SemiBold_Italic,
+  Poppins_700Bold,
+  Poppins_700Bold_Italic,
+  Poppins_800ExtraBold,
+  Poppins_800ExtraBold_Italic,
+  Poppins_900Black,
+  Poppins_900Black_Italic,
+  useFonts,
+} from '@expo-google-fonts/poppins';
+import { ThemeProvider } from "@shopify/restyle";
+import { Stack } from "expo-router";
+import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from "expo-status-bar";
+import { useEffect } from 'react';
+import "react-native-reanimated";
 
 if (__DEV__) {
-  require('../ReactotronConfig');
+  require("../ReactotronConfig");
 }
 
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import theme from '@/src/theme/theme';
-import { ThemeProvider } from '@shopify/restyle';
+// Previne que a splash screen seja escondida automaticamente
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded] = useFonts({
-    // Corrigir os caminhos - agora apontando para assets/images/fonts/
-    IcoMoon: require('../assets/icons/icomoon.ttf'),
-    PoppinsBlack: require('../assets/images/fonts/Poppins-Black.ttf'),
-    PoppinsBlackItalic: require('../assets/images/fonts/Poppins-BlackItalic.ttf'),
-    PoppinsBold: require('../assets/images/fonts/Poppins-Bold.ttf'),
-    PoppinsBoldItalic: require('../assets/images/fonts/Poppins-BoldItalic.ttf'),
-    PoppinsExtraBold: require('../assets/images/fonts/Poppins-ExtraBold.ttf'),
-    PoppinsExtraBoldItalic: require('../assets/images/fonts/Poppins-ExtraBoldItalic.ttf'),
-    PoppinsExtraLight: require('../assets/images/fonts/Poppins-ExtraLight.ttf'),
-    PoppinsExtraLightItalic: require('../assets/images/fonts/Poppins-ExtraLightItalic.ttf'),
-    PoppinsItalic: require('../assets/images/fonts/Poppins-Italic.ttf'),
-    PoppinsLight: require('../assets/images/fonts/Poppins-Light.ttf'),
-    PoppinsLightItalic: require('../assets/images/fonts/Poppins-LightItalic.ttf'),
-    PoppinsMedium: require('../assets/images/fonts/Poppins-Medium.ttf'),
-    PoppinsMediumItalic: require('../assets/images/fonts/Poppins-MediumItalic.ttf'),
-    PoppinsRegular: require('../assets/images/fonts/Poppins-Regular.ttf'),
-    PoppinsSemiBold: require('../assets/images/fonts/Poppins-SemiBold.ttf'),
-    PoppinsSemiBoldItalic: require('../assets/images/fonts/Poppins-SemiBoldItalic.ttf'),
-    PoppinsThin: require('../assets/images/fonts/Poppins-Thin.ttf'),
-    PoppinsThinItalic: require('../assets/images/fonts/Poppins-ThinItalic.ttf'),
+  const [loaded, error] = useFonts({
+    // Ícones (manter local)
+    IcoMoon: require("../assets/icons/icomoon.ttf"),
+    
+    // Google Fonts Poppins (mapeamento para seus nomes atuais)
+    PoppinsThin: Poppins_100Thin,
+    PoppinsThinItalic: Poppins_100Thin_Italic,
+    PoppinsExtraLight: Poppins_200ExtraLight,
+    PoppinsExtraLightItalic: Poppins_200ExtraLight_Italic,
+    PoppinsLight: Poppins_300Light,
+    PoppinsLightItalic: Poppins_300Light_Italic,
+    PoppinsRegular: Poppins_400Regular,
+    PoppinsItalic: Poppins_400Regular_Italic,
+    PoppinsMedium: Poppins_500Medium,
+    PoppinsMediumItalic: Poppins_500Medium_Italic,
+    PoppinsSemiBold: Poppins_600SemiBold,
+    PoppinsSemiBoldItalic: Poppins_600SemiBold_Italic,
+    PoppinsBold: Poppins_700Bold,
+    PoppinsBoldItalic: Poppins_700Bold_Italic,
+    PoppinsExtraBold: Poppins_800ExtraBold,
+    PoppinsExtraBoldItalic: Poppins_800ExtraBold_Italic,
+    PoppinsBlack: Poppins_900Black,
+    PoppinsBlackItalic: Poppins_900Black_Italic,
   });
 
-  if (!loaded) {
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
+  if (!loaded && !error) {
     return null;
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <Stack
-        screenOptions={{
-          contentStyle: { backgroundColor: theme.colors.background },
-        }}
-      >
-        <Stack.Screen name="(protected)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-        <Stack.Screen name="sign-in" />
-      </Stack>
-      <StatusBar style="light" />
-    </ThemeProvider>
+    <RepositoryProvider value={InMemoryRepository}>
+      <ThemeProvider theme={theme}>
+        <Stack
+          screenOptions={{
+            contentStyle: { backgroundColor: theme.colors.background },
+          }}
+        >
+          <Stack.Screen name="(protected)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+          <Stack.Screen name="sign-in" />
+        </Stack>
+        <StatusBar style="light" />
+      </ThemeProvider>
+    </RepositoryProvider>
   );
 }
