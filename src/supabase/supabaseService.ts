@@ -1,4 +1,8 @@
-import { Category, CategoryCode, City, CityPreview } from "../types";
+
+import { Category, CategoryCode } from "../domain/category/Category";
+import { City, CityPreview } from "../domain/city/City";
+import { ICityRepo } from "../domain/city/ICityRepo";
+
 import { supabase } from "./supabase";
 import { supabaseAdapter } from "./supabaseAdapter";
 
@@ -77,9 +81,8 @@ async function getRelatedCities(cityId: string): Promise<CityPreview[]> {
   return data.map(supabaseAdapter.toCityPreview);
 }
 
-export const supabaseService = {
+export const supabaseCityRepo: ICityRepo = {
   findAll,
-  listCategory,
   findById,
   getRelatedCities,
 };
