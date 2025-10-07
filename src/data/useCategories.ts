@@ -1,6 +1,6 @@
-import { supabaseService } from "../supabase/supabaseService";
+import { SupabaseCityRepo } from "../infra/repositories/adapters/supabase/SupabaseCityRepo";
 import { useFetchData } from "./useFetchData";
 
 export function useCategories() {
-  return useFetchData(() => supabaseService.listCategory());
+  return useFetchData(() => SupabaseCityRepo.listCategory());
 }

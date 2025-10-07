@@ -1,13 +1,13 @@
-import { Divider } from "@/src/components/Divider";
-import { Screen } from "@/src/components/Screen";
-import { Text } from "@/src/components/Text";
-import { BottomSheetMap } from "@/src/container/BottomSheetMap";
-import { CityDetailsHeader } from "@/src/container/CityDetailsHeader";
-import { CityDetailsInfo } from "@/src/container/CityDetailsInfo";
-import { CityDetailsMap } from "@/src/container/CityDetailsMap";
-import { CityDetailsRelatedCities } from "@/src/container/CityDetailsRelatedCities";
-import { CityDetailsTouristAttractions } from "@/src/container/CityDetailTouristAttractions";
 import { useCityFindById } from "@/src/domain/city/operation/useCityFindById";
+import { Divider } from "@/src/ui/components/Divider";
+import { Screen } from "@/src/ui/components/Screen";
+import { Text } from "@/src/ui/components/Text";
+import { BottomSheetMap } from "@/src/ui/container/BottomSheetMap";
+import { CityDetailsHeader } from "@/src/ui/container/CityDetailsHeader";
+import { CityDetailsInfo } from "@/src/ui/container/CityDetailsInfo";
+import { CityDetailsMap } from "@/src/ui/container/CityDetailsMap";
+import { CityDetailsRelatedCities } from "@/src/ui/container/CityDetailsRelatedCities";
+import { CityDetailsTouristAttractions } from "@/src/ui/container/CityDetailTouristAttractions";
 
 import { useLocalSearchParams } from "expo-router";
 import { Pressable } from "react-native";

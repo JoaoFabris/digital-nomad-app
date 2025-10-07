@@ -1,26 +1,24 @@
-import { Box } from "@/src/components/Box";
-import { CityCard } from "@/src/components/CityCard";
-import { Screen } from "@/src/components/Screen";
-import { CityFilter } from "@/src/container/CityFilter";
+import { CityPreview } from '@/src/domain/city/City';
+import { Box } from '@/src/ui/components/Box';
+import { CityCard } from '@/src/ui/components/CityCard';
+import { Screen } from '@/src/ui/components/Screen';
 
-import { useCategories } from "@/src/data/useCategories";
-import { CityPreview } from "@/src/domain/city/City";
-import { useCityFindAll } from "@/src/domain/city/operation/useCityFindAll";
-import { useDebounce } from "@/src/hook/useDebounce";
+import { useAppTheme } from '@/src/ui/theme/useAppTheme';
 
-
-import { useAppTheme } from "@/src/theme/useAppTheme";
-
-import { useScrollToTop } from "@react-navigation/native";
-import { useRef, useState } from "react";
-import { ListRenderItemInfo } from "react-native";
-import Animated, { FadingTransition } from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useCategoryFindAll } from '@/src/domain/city/operation/useCategoryFindAll';
+import { useCityFindAll } from '@/src/domain/city/operation/useCityFindAll';
+import { CityFilter } from '@/src/ui/container/CityFilter';
+import { useDebounce } from '@/src/utils/hooks/useDebounce';
+import { useScrollToTop } from '@react-navigation/native';
+import { useRef, useState } from 'react';
+import { ListRenderItemInfo } from 'react-native';
+import Animated, { FadingTransition } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
   const { spacing } = useAppTheme();
   const { top } = useSafeAreaInsets();
-  const [cityName, setCityName] = useState("");
+  const [cityName, setCityName] = useState('');
 
   const debouncedCityName = useDebounce(cityName);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
@@ -32,7 +30,7 @@ export default function HomeScreen() {
     categoryId: selectedCategoryId,
   });
 
-  const { data: categories } = useCategories();
+  const { data: categories } = useCategoryFindAll();
 
   const flatListRef = useRef(null);
   useScrollToTop(flatListRef);

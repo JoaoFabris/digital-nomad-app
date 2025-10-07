@@ -8,6 +8,7 @@ export type CityFindAllFilters = {
 };
 
 export interface ICityRepo {
+  listCategory(): Promise<unknown>;
   findAll(filters: CityFindAllFilters): Promise<CityPreview[]>;
   findById(id: string): Promise<City>;
   getRelatedCities(cityId: string): Promise<CityPreview[]>;

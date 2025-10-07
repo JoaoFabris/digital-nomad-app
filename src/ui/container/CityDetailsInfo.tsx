@@ -1,6 +1,7 @@
-import { Text } from "@/src/ui/components/Text";
-import { City } from "../types";
-import { Box } from "../ui/components/Box";
+
+import { City } from "../../types";
+import { Box } from "../components/Box";
+import { Text } from "../components/Text";
 
 type CityDetailsInfoProps = Pick<City, "name" | "country" | "description">;
 

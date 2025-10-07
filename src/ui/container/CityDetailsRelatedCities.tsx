@@ -1,12 +1,11 @@
-import { Text } from "@/src/ui/components/Text";
 import { ScrollView, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useGetRelatedCities } from "../domain/city/operation/useGetRelatedCities";
-import { City } from "../types";
-import { Box } from "../ui/components/Box";
-import { CityCard } from "../ui/components/CityCard";
-import { useAppTheme } from "../ui/theme/useAppTheme";
-
+import { City } from "../../domain/city/City";
+import { useGetRelatedCities } from "../../domain/city/operation/useGetRelatedCities";
+import { Box } from "../components/Box";
+import { CityCard } from "../components/CityCard";
+import { Text } from "../components/Text";
+import { useAppTheme } from "../theme/useAppTheme";
 
 type Props = Pick<City, "id">;
 export function CityDetailsRelatedCities({ id }: Props) {

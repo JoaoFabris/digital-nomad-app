@@ -3,6 +3,9 @@ import { City, CityPreview } from "@/src/domain/city/City";
 import { CityFindAllFilters, ICityRepo } from "@/src/domain/city/ICityRepo";
 
 export class InMemoryCityRepo implements ICityRepo {
+  listCategory(): Promise<unknown> {
+    throw new Error("Method not implemented.");
+  }
   async findById(id: string): Promise<City> {
     const city = cities.find((city) => city.id === id);
     if (city) {

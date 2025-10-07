@@ -1,6 +1,8 @@
+import { AlertFeedback } from "@/src/infra/feedbackService/adapters/Alert/AlertFeedback";
+import { FeedbackProvider } from "@/src/infra/feedbackService/FeedbackProvider";
 import { InMemoryRepository } from "@/src/infra/repositories/adapters/inMemory";
 import { RepositoryProvider } from "@/src/infra/repositories/RepositoryProvider";
-import theme from "@/src/theme/theme";
+import theme from "@/src/ui/theme/theme";
 import {
   Poppins_100Thin,
   Poppins_100Thin_Italic,
@@ -73,19 +75,23 @@ export default function RootLayout() {
   }
 
   return (
-    <RepositoryProvider value={InMemoryRepository}>
-      <ThemeProvider theme={theme}>
-        <Stack
-          screenOptions={{
-            contentStyle: { backgroundColor: theme.colors.background },
-          }}
-        >
-          <Stack.Screen name="(protected)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-          <Stack.Screen name="sign-in" />
-        </Stack>
-        <StatusBar style="light" />
-      </ThemeProvider>
-    </RepositoryProvider>
+     <FeedbackProvider value={AlertFeedback}>
+      <RepositoryProvider value={InMemoryRepository}>
+        <ThemeProvider theme={theme}>
+          <Stack
+            screenOptions={{
+              contentStyle: { backgroundColor: theme.colors.background },
+              headerShown: false,
+              fullScreenGestureEnabled: true,
+            }}
+          >
+            <Stack.Screen name="(protected)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+            <Stack.Screen name="sign-in" />
+          </Stack>
+          <StatusBar style="light" />
+        </ThemeProvider>
+      </RepositoryProvider>
+    </FeedbackProvider>
   );
 }
