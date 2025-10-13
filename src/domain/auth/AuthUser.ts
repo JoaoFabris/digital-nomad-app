@@ -1,5 +1,6 @@
 export type AuthUser = {
   id: string;
   email: string;
-  //backend n pode retornar password
+  // fullname: string
+  // token: string
 };

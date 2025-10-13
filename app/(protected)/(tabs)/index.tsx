@@ -7,7 +7,7 @@ import { useAppTheme } from '@/src/ui/theme/useAppTheme';
 
 import { useCategoryFindAll } from '@/src/domain/city/operation/useCategoryFindAll';
 import { useCityFindAll } from '@/src/domain/city/operation/useCityFindAll';
-import { CityFilter } from '@/src/ui/container/CityFilter';
+import { CityFilter } from '@/src/ui/containers/CityFilter';
 import { useDebounce } from '@/src/utils/hooks/useDebounce';
 import { useScrollToTop } from '@react-navigation/native';
 import { useRef, useState } from 'react';

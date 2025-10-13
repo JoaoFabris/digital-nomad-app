@@ -1,4 +1,3 @@
-
 import { createTheme } from "@shopify/restyle";
 
 const palette = {

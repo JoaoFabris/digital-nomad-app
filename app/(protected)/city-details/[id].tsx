@@ -2,12 +2,12 @@ import { useCityFindById } from "@/src/domain/city/operation/useCityFindById";
 import { Divider } from "@/src/ui/components/Divider";
 import { Screen } from "@/src/ui/components/Screen";
 import { Text } from "@/src/ui/components/Text";
-import { BottomSheetMap } from "@/src/ui/container/BottomSheetMap";
-import { CityDetailsHeader } from "@/src/ui/container/CityDetailsHeader";
-import { CityDetailsInfo } from "@/src/ui/container/CityDetailsInfo";
-import { CityDetailsMap } from "@/src/ui/container/CityDetailsMap";
-import { CityDetailsRelatedCities } from "@/src/ui/container/CityDetailsRelatedCities";
-import { CityDetailsTouristAttractions } from "@/src/ui/container/CityDetailTouristAttractions";
+import { BottomSheetMap } from "@/src/ui/containers/BottomSheetMap";
+import { CityDetailsHeader } from "@/src/ui/containers/CityDetailsHeader";
+import { CityDetailsInfo } from "@/src/ui/containers/CityDetailsInfo";
+import { CityDetailsMap } from "@/src/ui/containers/CityDetailsMap";
+import { CityDetailsRelatedCities } from "@/src/ui/containers/CityDetailsRelatedCities";
+import { CityDetailsTouristAttractions } from "@/src/ui/containers/CityDetailTouristAttractions";
 
 import { useLocalSearchParams } from "expo-router";
 import { Pressable } from "react-native";
