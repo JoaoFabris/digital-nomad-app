@@ -1,29 +1,109 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
+import { AuthProvider } from '@/src/domain/auth/AuthContext';
+import { Toast } from '@/src/infra/feedbackService/adapters/Toast/Toast';
+import { ToastFeedback } from '@/src/infra/feedbackService/adapters/Toast/ToastFeedback';
+import { FeedbackProvider } from '@/src/infra/feedbackService/FeedbackProvider';
+import { SupabaseRepositories } from "@/src/infra/repositories/adapters/supabase";
+import { RepositoryProvider } from '@/src/infra/repositories/RepositoryProvider';
+import { AsyncStorage } from '@/src/infra/storage/adapters/AsyncStorage';
+import { StorageProvider } from '@/src/infra/storage/StorageContext';
+import theme from '@/src/ui/theme/theme';
+import {
+  Poppins_100Thin,
+  Poppins_100Thin_Italic,
+  Poppins_200ExtraLight,
+  Poppins_200ExtraLight_Italic,
+  Poppins_300Light,
+  Poppins_300Light_Italic,
+  Poppins_400Regular,
+  Poppins_400Regular_Italic,
+  Poppins_500Medium,
+  Poppins_500Medium_Italic,
+  Poppins_600SemiBold,
+  Poppins_600SemiBold_Italic,
+  Poppins_700Bold,
+  Poppins_700Bold_Italic,
+  Poppins_800ExtraBold,
+  Poppins_800ExtraBold_Italic,
+  Poppins_900Black,
+  Poppins_900Black_Italic,
+  useFonts,
+} from '@expo-google-fonts/poppins';
+import { ThemeProvider } from '@shopify/restyle';
 import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+if (__DEV__) {
+  require('../ReactotronConfig');
+}
+
+// Previne que a splash screen seja escondida automaticamente
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+  const [loaded, error] = useFonts({
+    // Ícones (manter local)
+    IcoMoon: require('../assets/icons/icomoon.ttf'),
+
+    // Google Fonts Poppins (mapeamento para seus nomes atuais)
+    PoppinsThin: Poppins_100Thin,
+    PoppinsThinItalic: Poppins_100Thin_Italic,
+    PoppinsExtraLight: Poppins_200ExtraLight,
+    PoppinsExtraLightItalic: Poppins_200ExtraLight_Italic,
+    PoppinsLight: Poppins_300Light,
+    PoppinsLightItalic: Poppins_300Light_Italic,
+    PoppinsRegular: Poppins_400Regular,
+    PoppinsItalic: Poppins_400Regular_Italic,
+    PoppinsMedium: Poppins_500Medium,
+    PoppinsMediumItalic: Poppins_500Medium_Italic,
+    PoppinsSemiBold: Poppins_600SemiBold,
+    PoppinsSemiBoldItalic: Poppins_600SemiBold_Italic,
+    PoppinsBold: Poppins_700Bold,
+    PoppinsBoldItalic: Poppins_700Bold_Italic,
+    PoppinsExtraBold: Poppins_800ExtraBold,
+    PoppinsExtraBoldItalic: Poppins_800ExtraBold_Italic,
+    PoppinsBlack: Poppins_900Black,
+    PoppinsBlackItalic: Poppins_900Black_Italic,
   });
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
+  if (!loaded && !error) {
     return null;
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <StorageProvider storage={AsyncStorage}>
+      <AuthProvider>
+        <FeedbackProvider value={ToastFeedback}>
+          <RepositoryProvider value={SupabaseRepositories}>
+            <ThemeProvider theme={theme}>
+              <Stack
+                screenOptions={{
+                  contentStyle: { backgroundColor: theme.colors.background },
+                  headerShown: false,
+                  fullScreenGestureEnabled: true,
+                }}
+              >
+                <Stack.Screen
+                  name="(protected)"
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen name="+not-found" />
+                <Stack.Screen name="sign-in" />
+              </Stack>
+              <StatusBar style="light" />
+              <Toast />
+            </ThemeProvider>
+          </RepositoryProvider>
+        </FeedbackProvider>
+      </AuthProvider>
+    </StorageProvider>
   );
 }
