@@ -1,7 +1,7 @@
 // src/components/Screen.tsx
-import { PropsWithChildren } from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
-import { Box, BoxProps } from "./Box";
+import { PropsWithChildren } from 'react';
+import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native'; //esse componente ajuda a ajustar o espaço entre o conteudo e o teclado
+import { Box, BoxProps } from './Box';
 
 export function Screen({
   children,
@@ -13,7 +13,7 @@ export function Screen({
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <Box
         flex={1}
@@ -21,13 +21,7 @@ export function Screen({
         paddingHorizontal="padding"
         {...boxProps}
       >
-        <Container 
-          style={{ flex: 1 }}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={scrollable ? { flexGrow: 1 } : undefined}
-        >
-          {children}
-        </Container>
+        <Container showsVerticalScrollIndicator={false}>{children}</Container>
       </Box>
     </KeyboardAvoidingView>
   );

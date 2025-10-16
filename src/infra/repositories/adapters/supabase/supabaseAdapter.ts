@@ -1,5 +1,12 @@
+//Este arquivo é um Adapter (padrão de design) que faz a conversão entre os dados do Supabase e as entidades do domínio da aplicação.
+//  É uma camada de tradução que desacopla a estrutura do banco de dados da lógica de negócio.
+
+//Dados do Supabase (formato do banco) → Entidades do Domain (formato da aplicação)
+
+import { AuthUser } from "@/src/domain/auth/AuthUser";
 import { Category, CategoryCode } from "@/src/domain/category/Category";
 import { City, CityPreview, TouristAttraction } from "@/src/domain/city/City";
+import { AuthUser as SupaBaseAuthUser } from "@supabase/supabase-js";
 import { Database } from "./types";
 
 export const storageURL = process.env.EXPO_PUBLIC_SUPABASE_STORAGE_URL;
@@ -65,7 +72,19 @@ function toCategory(row: CategoryRow): Category {
   };
 }
 
+function toAuthUser(supabaseUser: SupaBaseAuthUser): AuthUser {
+  if (!supabaseUser.email) {
+    throw new Error("email not found");
+  }
+  return {
+    id: supabaseUser.id,
+    email: supabaseUser.email,
+    fullname: supabaseUser.user_metadata.fullname,
+  };
+}
+
 export const supabaseAdapter = {
   toCity,
   toCityPreview,
+  toAuthUser,
 };
