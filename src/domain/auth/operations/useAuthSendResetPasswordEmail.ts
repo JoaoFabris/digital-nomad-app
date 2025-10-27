@@ -1,7 +1,7 @@
 import { useFeedbackService } from "@/src/infra/feedbackService/FeedbackProvider";
 import {
-    useAppMutation,
-    UseAppMutationOptions,
+  useAppMutation,
+  UseAppMutationOptions,
 } from "@/src/infra/operations/useAppMutation";
 import { useRepository } from "@/src/infra/repositories/RepositoryProvider";
 
@@ -12,7 +12,7 @@ export function useAuthSendResetPasswordEmail(
   const feedbackService = useFeedbackService();
 
   return useAppMutation<void, { email: string }>({
-    mutateFn: ({ email }) => auth.sendResetPasswordEmail(email),
+    mutationFn: ({ email }) => auth.sendResetPasswordEmail(email),
     onSuccess: () => {
       options?.onSuccess?.();
       feedbackService.send({

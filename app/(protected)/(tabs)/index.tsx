@@ -1,3 +1,4 @@
+
 import { CityPreview } from "@/src/domain/city/City";
 import { Box } from "@/src/ui/components/Box";
 import { CityCard } from "@/src/ui/components/CityCard";
@@ -9,7 +10,7 @@ import { useAppTheme } from "@/src/ui/theme/useAppTheme";
 import { useDebounce } from "@/src/utils/hooks/useDebounce";
 
 import { useCategoryFindAll } from "@/src/domain/city/operation/useCategoryFindAll";
-import { useCityFindAll } from "@/src/domain/city/operation/useCityFindAll";
+import { useCityFindAll } from "@/src/domain/city/operations/useCityFindAll";
 import { Text } from "@/src/ui/components/Text";
 import { useScrollToTop } from "@react-navigation/native";
 import { useRef, useState } from "react";
@@ -49,23 +50,26 @@ export default function HomeScreen() {
     );
   }
 
-  function renderEmptyComponent() {
-    let Content;
+function renderEmptyComponent() {
+  let Content;
 
-    if (isLoading) {
-      Content = <Text>carregando cidades...</Text>;
-    } else if (error) {
-      Content = <Text>erro ao carregar cidades. {error.message}</Text>;
-    } else {
-      Content = <Text>não há cidades no momento</Text>;
-    }
-
-    return (
-      <Box alignSelf="center" mt="s32">
-        {Content}
-      </Box>
-    );
+  if (isLoading) {
+    Content = <Text>carregando cidades...</Text>;
+  } else if (error) {
+    const errorMessage = error instanceof Error 
+      ? error.message 
+      : 'Erro desconhecido';
+    Content = <Text>erro ao carregar cidades. {errorMessage}</Text>;
+  } else {
+    Content = <Text>não há cidades no momento</Text>;
   }
+
+  return (
+    <Box alignSelf="center" mt="s32">
+      {Content}
+    </Box>
+  );
+}
 
   return (
     <Screen style={{ paddingHorizontal: 0 }}>

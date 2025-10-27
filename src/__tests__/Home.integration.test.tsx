@@ -1,38 +1,41 @@
 import {
-    fireEvent,
-    screen,
-    waitForElementToBeRemoved,
-} from "@testing-library/react-native";
-import { renderApp } from "../test-utils/renderApp";
+  fireEvent,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react-native';
+import { renderApp } from '../test-utils/renderApp';
 
-describe("integration: Home", () => {
-  it("should display the city list and navigate to details when the city card is pressed", async () => {
+describe('integration: Home', () => {
+    it('should display the city list and navigate to details when the city card is pressed', async () => {
     renderApp({ isAuthenticated: true });
 
-    fireEvent.press(await screen.findByText("Rio de Janeiro"));
+    // ✅ Aguarda o elemento aparecer
+    fireEvent.press(await screen.findByText('Rio de Janeiro'));
 
-    expect(await screen.findByText("Pontos turísticos")).toBeOnTheScreen();
+    // ✅ Aguarda a navegação e nova tela carregar
+    expect(await screen.findByText('Pontos turísticos')).toBeOnTheScreen();
 
-    fireEvent.press(screen.getByTestId("Chevron-left"));
+    fireEvent.press(screen.getByTestId('Chevron-left'));
 
-    // Dubai city card
-    expect(await screen.findByText("Dubai")).toBeOnTheScreen();
+    // ✅ Aguarda voltar para a tela anterior
+    expect(await screen.findByText('Dubai')).toBeOnTheScreen();
 
-    fireEvent.changeText(screen.getByTestId("search-input"), "barcelona");
+    fireEvent.changeText(screen.getByTestId('search-input'), 'Barcelona');
 
-    await waitForElementToBeRemoved(() => screen.getByText("Dubai"));
+    // ✅ Aguarda Dubai desaparecer
+    await waitForElementToBeRemoved(() => screen.getByText('Dubai'));
 
-    expect(screen.getByText("Barcelona")).toBeOnTheScreen();
-    expect(screen.getByText("Espanha")).toBeOnTheScreen();
+    expect(await screen.findByText('Barcelona')).toBeOnTheScreen();
+    expect(await screen.findByText('Espanha')).toBeOnTheScreen();
   });
 
-  it("should display an error message when city list does not load", async () => {
+  it('should display an error message when city list does not load', async () => {
     renderApp({
       isAuthenticated: true,
       repositories: {
         city: {
           findAll: async () => {
-            return Promise.reject(new Error("server is down!"));
+            return Promise.reject(new Error('server is down!'));
           },
         },
       },
@@ -44,7 +47,7 @@ describe("integration: Home", () => {
     expect(await screen.findByText(/server is down!/i)).toBeOnTheScreen();
   });
 
-  it("should display an empty message when city list is empty", async () => {
+  it('should display an empty message when city list is empty', async () => {
     renderApp({
       isAuthenticated: true,
       repositories: {
