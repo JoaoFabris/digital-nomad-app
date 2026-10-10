@@ -2,7 +2,6 @@
 
 App mobile (iOS e Android) que reúne cidades para nômades digitais: o usuário busca destinos, filtra por categoria e vê os detalhes de cada cidade, com pontos turísticos e mapa.
 
-![Telas do app](docs/screens.png)
 
 ## Funcionalidades
 
