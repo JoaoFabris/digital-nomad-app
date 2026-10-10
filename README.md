@@ -1,50 +1,47 @@
-# Welcome to your Expo app 👋
+# Digital Nomad
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+App mobile (iOS e Android) que reúne cidades para nômades digitais: o usuário busca destinos, filtra por categoria e vê os detalhes de cada cidade, com pontos turísticos e mapa.
 
-## Get started
+![Telas do app](docs/screens.png)
 
-1. Install dependencies
+## Funcionalidades
 
-   ```bash
-   npm install
-   ```
+- **Início:** busca de destinos e filtro por categoria (Destaques, Urbano, Praia, Natureza, Cultura, Shopping, História).
+- **Busca:** resultados em tempo real, com a contagem de cidades encontradas.
+- **Detalhes da cidade:** foto, categorias, descrição, pontos turísticos em accordion, mapa e sugestões de outras cidades ("Veja também").
+- **Explorar:** cidades agrupadas por categoria em carrosséis horizontais.
+- **Favoritos:** marcar cidades de interesse.
+- **Atualizações OTA:** novas versões chegam pelo EAS Update, sem republicar nas lojas.
 
-2. Start the app
+## Stack
 
-   ```bash
-   npx expo start
-   ```
+| Camada | Tecnologias |
+|---|---|
+| Mobile | React Native, Expo, Expo Router, TypeScript |
+| Dados | API REST própria (Node.js) |
+| Build e deploy | EAS Build, EAS Update (OTA) |
+| Debug | Reactotron |
 
-In the output, you'll find options to open the app in a
+## Como rodar
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+Pré-requisitos: Node.js LTS e o app Expo Go no celular, ou um emulador Android/iOS.
 
 ```bash
-npm run reset-project
+git clone https://github.com/JoaoFabris/digital-nomad-app.git
+cd digital-nomad-app
+npm install
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Depois, abra no Expo Go (QR code), no emulador Android (`a`) ou no simulador iOS (`i`).
 
-## Learn more
+## Estrutura
 
-To learn more about developing your project with Expo, look at the following resources:
+```
+app/          # telas e navegação (Expo Router)
+components/   # componentes reutilizáveis
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Autor
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+João Fabris · [LinkedIn](https://www.linkedin.com/in/joaofabris) · [GitHub](https://github.com/JoaoFabris)
