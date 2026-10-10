@@ -6,7 +6,8 @@ App mobile (iOS e Android) que reúne cidades para nômades digitais: o usuário
 
 | Início e busca | Detalhes da cidade |
 |---|---|
-| <img src="docs/home-busca.png" width="400" /> | <img src="docs/detalhes.png" width="240" /> |
+| ![Uploading home-busca.webp…]()
+ |
 
 | Autenticação |
 |---|
