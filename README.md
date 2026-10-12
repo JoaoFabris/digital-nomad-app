@@ -24,7 +24,7 @@ App mobile (iOS e Android) que reúne cidades para nômades digitais: o usuário
 |---|
 |<img width="259" height="453" alt="atualizar-senha" src="https://github.com/user-attachments/assets/8ecfd646-9342-4df3-bc52-ee1f5a3aebe3" />|
 
-## Funcionalidades![Uploading perfil.png…]()
+## Funcionalidades
 
 
 - **Autenticação:** cadastro, login e recuperação de senha por e-mail.
