@@ -10,13 +10,22 @@ App mobile (iOS e Android) que reúne cidades para nômades digitais: o usuário
 
 | Autenticação |
 |---|
-| <img src="docs/auth.png" width="820" /> |
+| <img width="1750" height="919" alt="auth" src="https://github.com/user-attachments/assets/e526bc90-3180-4ec0-839a-2f849cec5dbd" />|
 
 | Explorar, perfil e configurações |
 |---|
-| <img src="docs/explorar-perfil.png" width="820" /> |
+| <img width="385" height="1426" alt="explorar" src="https://github.com/user-attachments/assets/bcb35f14-212b-4a31-9825-aab63b10473f" />|
 
-## Funcionalidades
+| Perfil Favoritos |
+|---|
+| <img width="260" height="484" alt="image" src="https://github.com/user-attachments/assets/3340b646-2143-441c-a2d9-809c05778adf" />|
+
+| Atualizar senha  |
+|---|
+|<img width="259" height="453" alt="atualizar-senha" src="https://github.com/user-attachments/assets/8ecfd646-9342-4df3-bc52-ee1f5a3aebe3" />|
+
+## Funcionalidades![Uploading perfil.png…]()
+
 
 - **Autenticação:** cadastro, login e recuperação de senha por e-mail.
 - **Início:** busca de destinos e filtro por categoria (Destaques, Urbano, Praia, Natureza, Cultura, Shopping, História).
