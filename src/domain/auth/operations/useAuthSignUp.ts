@@ -13,7 +13,7 @@ export function useAuthSignUp(options?: UseAppMutationOptions<void>) {
   const feedbackService = useFeedbackService();
 
   return useAppMutation<void, AuthSignUpParams>({
-    mutateFn: (params) => auth.signUp(params),
+    mutationFn: (params) => auth.signUp(params),
     onSuccess: () => {
       options?.onSuccess?.();
       feedbackService.send({
@@ -23,7 +23,7 @@ export function useAuthSignUp(options?: UseAppMutationOptions<void>) {
     },
     onError: (error) => {
       options?.onError?.(error);
-      feedbackService.send({ type: "error", message: "erro ao cadastrar" });
+      feedbackService.send({ type: "error", message: "erro ao cadastras" });
     },
   });
 }

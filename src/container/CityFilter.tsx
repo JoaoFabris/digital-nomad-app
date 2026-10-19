@@ -1,5 +1,6 @@
 import { ScrollView } from "react-native";
-import { Category } from "../types";
+
+import { Category } from "@/src/domain/category/Category";
 import { Box } from "../ui/components/Box";
 import { CategoryPill } from "../ui/components/CategoryPill";
 import { SearchInput } from "../ui/components/SearchInput";

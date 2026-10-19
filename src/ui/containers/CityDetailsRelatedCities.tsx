@@ -1,13 +1,14 @@
-import { ScrollView, useWindowDimensions } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { City } from "../../domain/city/City";
-import { useGetRelatedCities } from "../../domain/city/operation/useGetRelatedCities";
-import { Box } from "../components/Box";
-import { CityCard } from "../components/CityCard";
-import { Text } from "../components/Text";
-import { useAppTheme } from "../theme/useAppTheme";
+import { Text } from '@/src/ui/components/Text';
+import { ScrollView, useWindowDimensions } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-type Props = Pick<City, "id">;
+import { useGetRelatedCities } from '@/src/domain/city/operations/useGetRelatedCities';
+import { City } from '../../types';
+import { Box } from '../components/Box';
+import { CityCard } from '../components/CityCard';
+import { useAppTheme } from '../theme/useAppTheme';
+
+type Props = Pick<City, 'id'>;
 export function CityDetailsRelatedCities({ id }: Props) {
   const { data: cities } = useGetRelatedCities(id);
 
@@ -32,11 +33,7 @@ export function CityDetailsRelatedCities({ id }: Props) {
         }}
       >
         {cities?.map((city) => (
-          <CityCard
-            key={city.id}
-            cityPreview={city}
-            style={{ width: cardWith, height: cardHeight }}
-          />
+          <CityCard key={city.id} cityPreview={city} type="small" />
         ))}
       </ScrollView>
     </Box>

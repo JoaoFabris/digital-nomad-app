@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Digital Nomad",
+    "name": "Nomad",
     "slug": "digital-nomad-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,14 +9,19 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.coffstack.digitalnomadapp",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1B1B1B"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.coffstack.digitalnomadapp"
     },
     "web": {
       "bundler": "metro",
@@ -38,6 +43,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "7854b315-c236-4949-9d6c-5223e7b8b0a2"
+      }
     }
   }
 }

@@ -1,3 +1,4 @@
+// /home/fabris/digital-nomad-app/src/infra/repositories/RepositoryProvider.tsx
 import { Repositories } from "@/src/domain/Repositories";
 import React from "react";
 
@@ -31,3 +32,10 @@ export function useRepository(): Repositories {
 
 // 3. Facilita Testes
 // Durante os testes, você pode facilmente substituir os repositórios reais por mocks ou stubs.
+
+
+// React.createContext cria um contexto que pode ser usado para compartilhar dados globalmente no React sem precisar passar props manualmente.
+
+// Aqui, o tipo do contexto é Repositories (provavelmente uma interface que define todos os repositórios da sua aplicação, como UserRepository, AuthRepository etc.).
+
+// Inicialmente, está sendo passado um objeto vazio ({} as Repositories) apenas para satisfazer o TypeScript.

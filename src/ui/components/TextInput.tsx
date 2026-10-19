@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
-    TextInput as RNTextInput,
-    TextInputProps as RNTextInputProps,
-} from "react-native";
-import { useAppTheme } from "../theme/useAppTheme";
-import { Box, BoxProps } from "./Box";
-import { Text } from "./Text";
+  TextInput as RNTextInput,
+  TextInputProps as RNTextInputProps,
+} from 'react-native';
+import { useAppTheme } from '../theme/useAppTheme';
+import { Box, BoxProps } from './Box';
+import { Text } from './Text';
 
 type TextInputProps = RNTextInputProps & {
   label: string;
@@ -14,24 +14,30 @@ type TextInputProps = RNTextInputProps & {
 export function TextInput({
   label,
   errorMessage,
+  testID,
   ...textInputProps
 }: TextInputProps) {
   const { colors, textVariants } = useAppTheme();
   const [isFocused, setIsFocused] = useState(false);
 
   const borderColor = errorMessage
-    ? "fbErrorSurface"
+    ? 'fbErrorSurface'
     : isFocused
-    ? "text"
-    : "gray1";
+      ? 'text'
+      : 'gray1';
 
   return (
     <Box>
       <Text mb="s4" variant="title14">
         {label}
       </Text>
-      <Box {...textInputBoxStyle} borderColor={borderColor}>
+      <Box
+        testID={`${testID}-container`}
+        {...textInputBoxStyle}
+        borderColor={borderColor}
+      >
         <RNTextInput
+          testID={testID}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholderTextColor={colors.gray2}
@@ -40,8 +46,8 @@ export function TextInput({
             ...textVariants.title16,
             color: colors.text,
 
-            height: "100%",
-            width: "100%",
+            height: '100%',
+            width: '100%',
             flexShrink: 1,
           }}
         />
@@ -54,10 +60,10 @@ export function TextInput({
 }
 
 const textInputBoxStyle: BoxProps = {
-  flexDirection: "row",
-  alignItems: "center",
-  paddingHorizontal: "s16",
+  flexDirection: 'row',
+  alignItems: 'center',
+  paddingHorizontal: 's16',
   borderWidth: 2,
-  borderRadius: "default",
+  borderRadius: 'default',
   height: 50,
 };

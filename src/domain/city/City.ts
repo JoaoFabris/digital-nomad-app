@@ -19,8 +19,11 @@ export type City = {
     longitude: number;
   };
   categories: Category[];
+  isFavorite: boolean;
 };
 
-export type CityPreview = Pick<City, "id" | "name" | "country" | "coverImage">;
-
+export type CityPreview = Pick<
+  City,
+  "id" | "name" | "country" | "coverImage" | "isFavorite"
+>;
 // com o principio de arquitetura de dados, agora nosso sistema n depende mais do supabase, e sim a api(nesse caso a supabase) vai denpender dele

@@ -9,8 +9,11 @@ export function useAuthSignIn() {
   const feedbackService = useFeedbackService();
   const { saveAuthUser } = useAuth();
 
-  return useAppMutation<AuthUser, { email: string; password: string }>({
-    mutateFn: ({ email, password }) => auth.signIn(email, password),
+  const { mutate, error, isPending } = useAppMutation<
+    AuthUser,
+    { email: string; password: string }
+  >({
+    mutationFn: ({ email, password }) => auth.signIn(email, password),
     onSuccess: (authUser) => {
       saveAuthUser(authUser);
       feedbackService.send({
@@ -22,8 +25,14 @@ export function useAuthSignIn() {
       feedbackService.send({
         type: "error",
         message: "error ao fazer login",
-        description: (error as Error).message,
+        description: error.message,
       });
     },
   });
+
+  return {
+    mutate,
+    error,
+    isPending,
+  };
 }

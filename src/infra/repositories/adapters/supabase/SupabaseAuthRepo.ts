@@ -1,7 +1,13 @@
-import { AuthUser } from '@/src/domain/auth/AuthUser';
-import { AuthSignUpParams, IAuthRepo } from '@/src/domain/auth/IAuthRepo';
-import { supabase } from './supabase';
-import { supabaseAdapter } from './supabaseAdapter';
+// /home/fabris/digital-nomad-app/src/infra/repositories/adapters/supabase/SupabaseAuthRepo.ts
+import { AuthUser } from "@/src/domain/auth/AuthUser";
+import {
+  AuthSignUpParams,
+  AuthUpdatePasswordParams,
+  AuthUpdateProfileParams,
+  IAuthRepo,
+} from "@/src/domain/auth/IAuthRepo";
+import { supabase } from "./supabase";
+import { supabaseAdapter } from "./supabaseAdapter";
 
 export class SupabaseAuthRepo implements IAuthRepo {
   signIn = async (email: string, password: string): Promise<AuthUser> => {
@@ -10,8 +16,9 @@ export class SupabaseAuthRepo implements IAuthRepo {
       password,
     });
     if (error) {
-      throw new Error('user not found');
+      throw new Error("user not found");
     }
+
     return supabaseAdapter.toAuthUser(data.user);
   };
   signUp = async (params: AuthSignUpParams): Promise<void> => {
@@ -21,7 +28,7 @@ export class SupabaseAuthRepo implements IAuthRepo {
       options: { data: { fullname: params.fullname } },
     });
     if (error) {
-      throw new Error('erro on register user');
+      throw new Error("erro on register user");
     }
     return;
   };
@@ -35,13 +42,34 @@ export class SupabaseAuthRepo implements IAuthRepo {
       redirectTo: `${process.env.EXPO_PUBLIC_WEB_URL}/reset-password`,
     });
   };
+
+  getUser = async (): Promise<AuthUser> => {
+    const { data, error } = await supabase.auth.getUser();
+    if (error) {
+      throw new Error("error get User");
+    }
+
+    return supabaseAdapter.toAuthUser(data.user);
+  };
+
+  updateProfile = async (params: AuthUpdateProfileParams): Promise<void> => {
+    const { error } = await supabase.auth.updateUser({
+      email: params.email,
+      data: { fullname: params.fullname },
+    });
+    if (error) {
+      throw new Error("error updating user");
+    }
+  };
+  updatePassword = async (params: AuthUpdatePasswordParams): Promise<void> => {
+    const authUser = await this.getUser();
+    await this.signIn(authUser.email, params.currentPassword);
+
+    const { error } = await supabase.auth.updateUser({
+      password: params.newPassword,
+    });
+    if (error) {
+      throw new Error("error updating user");
+    }
+  };
 }
-
-//Arquivo	Responsabilidade	Conhece
-// SupabaseAuthRepo	Comunicação com API	Supabase SDK, Erros de rede
-// supabaseAdapter	Conversão de dados	Estrutura do banco vs Domain
-// Domain (AuthUser)	Regras de negócio	Apenas conceitos do negócio
-
-// SupabaseAuthRepo faz as chamadas para a API
-// supabaseAdapter faz as conversões de dados
-// Juntos eles entregam dados no formato correto para o Domain

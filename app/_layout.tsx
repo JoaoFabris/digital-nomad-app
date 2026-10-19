@@ -2,10 +2,11 @@ import { AuthProvider } from '@/src/domain/auth/AuthContext';
 import { Toast } from '@/src/infra/feedbackService/adapters/Toast/Toast';
 import { ToastFeedback } from '@/src/infra/feedbackService/adapters/Toast/ToastFeedback';
 import { FeedbackProvider } from '@/src/infra/feedbackService/FeedbackProvider';
-import { SupabaseRepositories } from "@/src/infra/repositories/adapters/supabase";
+import { SupabaseRepositories } from '@/src/infra/repositories/adapters/supabase';
 import { RepositoryProvider } from '@/src/infra/repositories/RepositoryProvider';
 import { AsyncStorage } from '@/src/infra/storage/adapters/AsyncStorage';
 import { StorageProvider } from '@/src/infra/storage/StorageContext';
+import { AppStack } from '@/src/ui/navigation/AppStack';
 import theme from '@/src/ui/theme/theme';
 import {
   Poppins_100Thin,
@@ -29,11 +30,13 @@ import {
   useFonts,
 } from '@expo-google-fonts/poppins';
 import { ThemeProvider } from '@shopify/restyle';
-import { Stack } from 'expo-router';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+
+const client = new QueryClient();
 
 if (__DEV__) {
   require('../ReactotronConfig');
@@ -79,31 +82,20 @@ export default function RootLayout() {
   }
 
   return (
-    <StorageProvider storage={AsyncStorage}>
-      <AuthProvider>
-        <FeedbackProvider value={ToastFeedback}>
-          <RepositoryProvider value={SupabaseRepositories}>
-            <ThemeProvider theme={theme}>
-              <Stack
-                screenOptions={{
-                  contentStyle: { backgroundColor: theme.colors.background },
-                  headerShown: false,
-                  fullScreenGestureEnabled: true,
-                }}
-              >
-                <Stack.Screen
-                  name="(protected)"
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen name="+not-found" />
-                <Stack.Screen name="sign-in" />
-              </Stack>
-              <StatusBar style="light" />
-              <Toast />
-            </ThemeProvider>
-          </RepositoryProvider>
-        </FeedbackProvider>
-      </AuthProvider>
-    </StorageProvider>
+    <QueryClientProvider client={client}>
+      <StorageProvider storage={AsyncStorage}>
+        <AuthProvider>
+          <FeedbackProvider value={ToastFeedback}>
+            <RepositoryProvider value={SupabaseRepositories}>
+              <ThemeProvider theme={theme}>
+                <AppStack />
+                <StatusBar style="light" />
+                <Toast />
+              </ThemeProvider>
+            </RepositoryProvider>
+          </FeedbackProvider>
+        </AuthProvider>
+      </StorageProvider>
+    </QueryClientProvider>
   );
 }
