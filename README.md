@@ -1,50 +1,96 @@
-# Welcome to your Expo app 👋
+# Digital Nomad
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+App mobile (iOS e Android) que reúne cidades para nômades digitais: o usuário busca destinos, filtra por categoria, vê os detalhes de cada cidade e salva as favoritas.
 
-## Get started
+> Projeto desenvolvido durante o curso de React Native da Coffstack (Lucas Garcez).
 
-1. Install dependencies
+<p align="center">
+  <img src="docs/screenshots/hero.png" alt="Início, detalhes da cidade com pontos turísticos, mapa e Explorar" width="900">
+</p>
 
-   ```bash
-   npm install
-   ```
+## Telas
 
-2. Start the app
+| Login | Criar conta | Início e busca | Detalhes da cidade |
+|---|---|---|---|
+| <img src="docs/screenshots/login.png" width="200"> | <img src="docs/screenshots/sign-up.png" width="200"> | <img src="docs/screenshots/home.png" width="200"> | <img src="docs/screenshots/city-details.png" width="200"> |
 
-   ```bash
-   npx expo start
-   ```
+| Mapa e "Veja também" | Explorar | Perfil e favoritos | Atualizar senha |
+|---|---|---|---|
+| <img src="docs/screenshots/city-map.png" width="200"> | <img src="docs/screenshots/explore.png" width="200"> | <img src="docs/screenshots/profile-favorites.png" width="200"> | <img src="docs/screenshots/update-password.png" width="200"> |
 
-In the output, you'll find options to open the app in a
+## Funcionalidades
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- **Autenticação:** cadastro, login e recuperação de senha por e-mail.
+- **Início:** busca de destinos e filtro por categoria (Destaques, Urbano, Praia, Natureza, Cultura, Shopping, História).
+- **Busca:** resultados com a contagem de cidades encontradas.
+- **Detalhes da cidade:** foto, categorias, descrição, pontos turísticos em accordion, mapa e sugestões de outras cidades ("Veja também").
+- **Explorar:** cidades agrupadas por categoria em carrosséis horizontais.
+- **Favoritos:** marcar cidades e vê-las no perfil.
+- **Perfil:** dados da conta, edição de perfil, troca de senha e logout.
+- **Atualizações OTA:** novas versões chegam pelo EAS Update, sem republicar nas lojas.
 
-## Get a fresh project
+## Stack
 
-When you're ready, run:
+| Camada | Tecnologias |
+|---|---|
+| Mobile | React Native 0.79, Expo SDK 53, Expo Router, TypeScript, Restyle (design system) |
+| Dados e autenticação | Supabase (PostgreSQL, Auth, views SQL) |
+| Formulários | React Hook Form + Zod |
+| Build e deploy | EAS Build, EAS Update (OTA) |
+| Debug | Reactotron |
+
+## Arquitetura
+
+O app segue a ideia de **ports & adapters**: as telas dependem de interfaces do domínio, nunca de uma implementação concreta.
+
+- **Repositórios** (`auth`, `city`, `category`) definidos no domínio e injetados via Context (`RepositoryProvider`). Existem dois adapters: **Supabase** (produção) e **in-memory** (desenvolvimento sem backend), trocáveis sem mudar nenhuma tela.
+- **Feedback ao usuário** também é uma interface (`IFeedbackService`), com adapters para Toast, Alert e Console.
+- **Banco no Supabase** versionado em scripts SQL: tabelas, seeds e **views** (`cities_with_full_info`, `cities_with_categories`, `related_cities`) que entregam os dados já agregados para cada tela.
+
+## Como rodar
+
+Pré-requisitos: Node.js LTS e o app Expo Go no celular, ou um emulador Android/iOS.
 
 ```bash
-npm run reset-project
+git clone https://github.com/JoaoFabris/digital-nomad-app.git
+cd digital-nomad-app
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Crie um arquivo `.env` na raiz com as credenciais do seu projeto Supabase:
 
-## Learn more
+```env
+EXPO_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=sua_anon_key
+EXPO_PUBLIC_SUPABASE_STORAGE_URL=https://seu-projeto.supabase.co/storage/v1/object/public
+EXPO_PUBLIC_WEB_URL=https://seu-dominio   # link do e-mail de recuperação de senha
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+O banco é criado rodando, em ordem, os scripts de `src/infra/repositories/adapters/supabase/sql/` no SQL Editor do Supabase. Depois:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+npx expo start
+```
 
-## Join the community
+Depois, abra no Expo Go (QR code), no emulador Android (`a`) ou no simulador iOS (`i`).
 
-Join our community of developers creating universal apps.
+## Estrutura
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```
+app/                  # telas e navegação (Expo Router)
+docs/screenshots/     # imagens deste README
+src/
+├── domain/           # entidades e contratos (City, Category, Repositories)
+├── infra/
+│   ├── repositories/ # RepositoryProvider + adapters (supabase, inMemory)
+│   │   └── adapters/supabase/sql/  # tabelas, seeds e views do banco
+│   └── feedbackService/            # interface + adapters (Toast, Alert, Console)
+├── data/             # hooks de dados (ex.: useCategories)
+├── ui/               # componentes e tema
+└── utils/
+```
+
+## Autor
+
+João Fabris · [LinkedIn](https://www.linkedin.com/in/joaofabris) · [GitHub](https://github.com/JoaoFabris)
