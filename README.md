@@ -36,7 +36,9 @@ App mobile (iOS e Android) que reúne cidades para nômades digitais: o usuário
 |---|---|
 | Mobile | React Native 0.79, Expo SDK 53, Expo Router, TypeScript, Restyle (design system) |
 | Dados e autenticação | Supabase (PostgreSQL, Auth, views SQL) |
+| Estado assíncrono e cache | TanStack Query |
 | Formulários | React Hook Form + Zod |
+| Testes | Jest (jest-expo) + React Native Testing Library |
 | Build e deploy | EAS Build, EAS Update (OTA) |
 | Debug | Reactotron |
 
@@ -47,6 +49,15 @@ O app segue a ideia de **ports & adapters**: as telas dependem de interfaces do 
 - **Repositórios** (`auth`, `city`, `category`) definidos no domínio e injetados via Context (`RepositoryProvider`). Existem dois adapters: **Supabase** (produção) e **in-memory** (desenvolvimento sem backend), trocáveis sem mudar nenhuma tela.
 - **Feedback ao usuário** também é uma interface (`IFeedbackService`), com adapters para Toast, Alert e Console.
 - **Banco no Supabase** versionado em scripts SQL: tabelas, seeds e **views** (`cities_with_full_info`, `cities_with_categories`, `related_cities`) que entregam os dados já agregados para cada tela.
+
+## Testes
+
+Testes unitários de componentes (com snapshot), de hooks de domínio (ex.: `useAuthSignIn`) e **testes de integração de fluxos completos** (autenticação, início e perfil), rodando contra o adapter in-memory, sem depender do Supabase.
+
+```bash
+npm run test            # modo watch
+npm run test:coverage   # com relatório de cobertura
+```
 
 ## Como rodar
 
@@ -87,6 +98,7 @@ src/
 │   │   └── adapters/supabase/sql/  # tabelas, seeds e views do banco
 │   └── feedbackService/            # interface + adapters (Toast, Alert, Console)
 ├── data/             # hooks de dados (ex.: useCategories)
+├── __tests__/        # testes de integração dos fluxos
 ├── ui/               # componentes e tema
 └── utils/
 ```
